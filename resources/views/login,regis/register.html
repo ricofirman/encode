@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daftar — ENCODE</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --dark: #000; --light: #fff; --gray-200: #e9ecef; --gray-700: #495057; --success: #198754; --danger: #dc3545; }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      margin: 0;
+    }
+    .card {
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      max-width: 440px;
+      width: 100%;
+      border: 1px solid rgba(0,0,0,0.05);
+      animation: slideIn 0.6s forwards;
+    }
+    .card-header {
+      background: var(--dark);
+      color: var(--light);
+      padding: 1.75rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .card-header::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, #333, #666, #333);
+    }
+    .card-body { padding: 2.25rem; }
+    .input-group { margin-bottom: 1.35rem; position: relative; }
+    .input-group-text { background: #f8f9fa; border-right: none; }
+    .form-control {
+      border: 1px solid var(--gray-200);
+      padding: 0.65rem 1rem;
+    }
+    .form-control:focus {
+      border-color: var(--dark);
+      box-shadow: 0 0 0 0.2rem rgba(0,0,0,0.12);
+    }
+    .form-control.is-invalid { border-color: var(--danger); padding-right: 2.5rem; }
+    .form-control.is-valid { border-color: var(--success); padding-right: 2.5rem; }
+    .toggle-password {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: #6c757d; cursor: pointer;
+    }
+    .btn-register {
+      background: var(--dark); border: var(--dark); width: 100%;
+      padding: 0.85rem; font-weight: 600; font-size: 1.05rem;
+    }
+    .link { color: var(--gray-700); text-decoration: none; font-weight: 500; }
+    .link:hover { color: var(--dark); text-decoration: underline; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="liveToast" class="toast align-items-center" role="alert">
+    <div class="d-flex">
+      <div class="toast-body me-2" id="toast-body">Pesan di sini.</div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2>ENCODE<span class="text-muted">.</span></h2>
+    <p>Buat akun baru</p>
+  </div>
+  <div class="card-body">
+    <form id="registerForm">
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-person"></i></span>
+        <input type="text" class="form-control" id="name" placeholder="Nama lengkap" required>
+      </div>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+        <input type="email" class="form-control" id="email" placeholder="email" required>
+      </div>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+        <input type="password" class="form-control" id="password" placeholder="password" required>
+        <button type="button" class="toggle-password" id="togglePassword"><i class="bi bi-eye"></i></button>
+      </div>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+        <input type="password" class="form-control" id="confirmPassword" placeholder="konfirmasi password" required>
+        <button type="button" class="toggle-password" id="toggleConfirmPassword"><i class="bi bi-eye"></i></button>
+      </div>
+      <button type="submit" class="btn btn-register">
+        <i class="bi bi-person-plus me-1"></i> Daftar
+      </button>
+      <div class="text-center mt-4 pt-2 border-top border-light">
+        <span class="text-muted small">Sudah punya akun? <a href="login.html" class="link">Masuk</a></span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Toggle password
+  const setupToggle = (btnId, inputId) => {
+    const btn = document.getElementById(btnId);
+    const inp = document.getElementById(inputId);
+    if (btn && inp) {
+      btn.addEventListener('click', () => {
+        const type = inp.type === 'password' ? 'text' : 'password';
+        inp.type = type;
+        btn.innerHTML = `<i class="bi bi-eye${type === 'password' ? '' : '-slash'}"></i>`;
+      });
+    }
+  };
+  setupToggle('togglePassword', 'password');
+  setupToggle('toggleConfirmPassword', 'confirmPassword');
+
+  // Toast
+  const toastEl = document.getElementById('liveToast');
+  const toastBody = document.getElementById('toast-body');
+  const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+  const showToast = (msg, type = 'info') => {
+    toastEl.className = 'toast align-items-center text-bg-' + 
+      (type === 'success' ? 'success' : type === 'error' ? 'danger' : 'light');
+    toastBody.textContent = msg;
+    toast.show();
+  };
+
+  // Validasi
+  document.getElementById('registerForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const pass = document.getElementById('password').value;
+    const cpass = document.getElementById('confirmPassword').value;
+    let valid = true;
+
+    ['name','email','password','confirmPassword'].forEach(id => {
+      document.getElementById(id).classList.remove('is-valid', 'is-invalid');
+    });
+
+    if (!name || name.length < 2) {
+      document.getElementById('name').classList.add('is-invalid');
+      showToast('Nama minimal 2 karakter.', 'error');
+      valid = false;
+    } else document.getElementById('name').classList.add('is-valid');
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('email').classList.add('is-invalid');
+      showToast('Email tidak valid.', 'error');
+      valid = false;
+    } else document.getElementById('email').classList.add('is-valid');
+
+    if (!pass || pass.length < 6) {
+      document.getElementById('password').classList.add('is-invalid');
+      showToast('Password minimal 6 karakter.', 'error');
+      valid = false;
+    } else document.getElementById('password').classList.add('is-valid');
+
+    if (cpass !== pass) {
+      document.getElementById('confirmPassword').classList.add('is-invalid');
+      showToast('Password tidak cocok.', 'error');
+      valid = false;
+    } else document.getElementById('confirmPassword').classList.add('is-valid');
+
+    if (valid) {
+      showToast('Mendaftar...', 'info');
+      setTimeout(() => showToast('Pendaftaran berhasil!', 'success'), 1000);
+    }
+  });
+
+  // Reset status saat input berubah
+  document.querySelectorAll('.form-control').forEach(el => 
+    el.addEventListener('input', () => el.classList.remove('is-valid', 'is-invalid'))
+  );
+</script>
+
+</body>
+</html>
