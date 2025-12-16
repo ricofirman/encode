@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,69 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is regular user
+     */
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    /**
+     * Check if user has specific role
+     */
+    public function hasRole($role): bool
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Scope for admin users
+     */
+    public function scopeAdmin($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    /**
+     * Scope for regular users
+     */
+    public function scopeUser($query)
+    {
+        return $query->where('role', 'user');
+    }
+
+    /**
+     * Get role label
+     */
+    public function getRoleLabelAttribute(): string
+    {
+        return match($this->role) {
+            'admin' => 'Administrator',
+            'user' => 'Pengguna',
+            default => 'Tidak Diketahui'
+        };
+    }
+
+    /**
+     * Get role badge class
+     */
+    public function getRoleBadgeClassAttribute(): string
+    {
+        return match($this->role) {
+            'admin' => 'badge bg-danger',
+            'user' => 'badge bg-primary',
+            default => 'badge bg-secondary'
+        };
     }
 }
