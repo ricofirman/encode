@@ -5,93 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T-Shirt - ENCODE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        
-        .breadcrumb {
-            background-color: transparent;
-            padding: 1rem 0;
-        }
-        
-        .filter-sidebar {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
-            height: fit-content;
-        }
-        
-        .filter-title {
-            font-weight: bold;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid var(--adidas-red);
-            padding-bottom: 0.5rem;
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        
-        .product-card .card-body {
-            padding: 1rem;
-        }
-        
-        .product-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .product-price {
-            color: var(--adidas-red);
-            font-weight: bold;
-        }
-        
-        .product-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--adidas-red);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-        }
-        
-        @media (max-width: 768px) {
-            .category-header h1 {
-                font-size: 2rem;
-            }
-            
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            
-            .navbar {
-                padding: 0.5rem 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/style1.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/t-shirt.css') }}">
+
 </head>
 <body>
     <!-- Navigation -->
@@ -332,23 +248,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>LOG IN</h5>
-                    <p>Sign in to your account to access exclusive benefits.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>YOUR BAG (0)</h5>
-                    <p>Your shopping bag is currently empty.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>REGISTER YOUR EMAIL FOR NEWS AND SPECIAL OFFERS</h5>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Enter your email">
-                        <button type="submit">SIGN UP FOR FREE <i class="fas fa-arrow-right ms-2"></i></button>
-                    </form>
-                </div>
-            </div>
+
             <hr class="my-4">
             <div class="row">
                 <div class="col-md-6">

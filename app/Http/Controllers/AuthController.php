@@ -130,10 +130,10 @@ class AuthController extends Controller
     // ===========================================
     public function showUserDashboard()
     {
-        // Cek apakah user sudah login
-        if (!Session::has('is_logged_in')) {
-            return redirect('/login')->with('error', 'Silakan login dulu!');
-        }
+        // // Cek apakah user sudah login
+        // if (!Session::has('is_logged_in')) {
+        //     return redirect('/login')->with('error', 'Silakan login dulu!');
+        // }
         
         // Cek apakah user adalah admin (jika admin, redirect ke admin panel)
         if (Session::get('user_role') == 'admin') {

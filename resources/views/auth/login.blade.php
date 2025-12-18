@@ -95,10 +95,11 @@
         <!-- Divider -->
         <div class="divider">atau</div>
 
-        <!-- Hanya Google -->
+       
         <div class="d-grid">
-          <button type="button" class="btn btn-outline-dark">
-            <i class="bi bi-google me-2"></i> Lanjutkan dengan Google
+          <button href="{{ url('/dashboard') }}"  class="btn btn-outline-dark" >
+            
+            <a class="nav-link" href="{{ url('/dashboard') }}">Masuk sebagai tamu</a>
           </button>
         </div>
 

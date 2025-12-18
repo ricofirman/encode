@@ -5,6 +5,7 @@ background-size: cover;
 background-position: center;
 color: white;
 text-align: center;
+
 }
 
 .hero-section h1 {
@@ -135,4 +136,16 @@ background-color: var(--adidas-red);
     .category-card, .product-card {
         margin-bottom: 1rem;
     }
+}
+
+/* untuk ikon navbar di mobile */
+.navbar-toggler-icon { 
+    filter: invert(1);
+}
+
+.navbar-toggler-icon:hover {
+    filter: invert(0.7);
+    transform: translateY(-5px);
+    transition: all 0.5s;
+    transform: scale(1.3);
 }
