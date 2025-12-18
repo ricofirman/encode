@@ -11,11 +11,14 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: white;
             color: var(--adidas-black);
+            padding-top: 800px;
         }
 
         .navbar {
             background-color: rgb(1, 1, 31);
             padding: 1rem 2rem;
+            position: fixed !important;
+            
         }
         
         .navbar-brand {

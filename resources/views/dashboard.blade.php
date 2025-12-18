@@ -5,135 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENCODE Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        
-        .hero-section {
-            background: black;
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-        }
-        
-        .hero-section h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .btn-encode {
-            background-color: var(--adidas-black);
-            color: var(--adidas-white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-encode:hover {
-            background-color: var(--adidas-red);
-            transform: translateY(-2px);
-        }
-        
-        .category-section {
-            padding: 3rem 2rem;
-        }
-        
-        .category-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .category-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .category-card .card-body {
-            padding: 1.5rem;
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        
-        .product-card .card-body {
-            padding: 1rem;
-        }
-        
-        .product-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .product-price {
-            color: var(--adidas-red);
-            font-weight: bold;
-        }
-        
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background-color: var(--adidas-red);
-        }
-        
-
-        
-        @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 2rem;
-            }
-            
-            .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            
-            .navbar {
-                padding: 0.5rem 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 </head>
 <body>
     <!-- Navigation -->
@@ -177,7 +50,7 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="brand-background">
-            <img src="foto/BDB.jpg" alt="gugugaga">
+            <img src="{{ asset('img/BDB.jpg') }}" alt="">
         </div>
     </section>
 
@@ -188,7 +61,7 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="foto/e1.jpg" alt="T-shirt Encode">
+                        <img src="{{ asset('img/e1.jpg') }}" alt="T-shirt Encode">
                         <div class="card-body">
                             <h5>Streetwear E</h5>
                             <p>Struktur yang berbicara. Kodekan profesionalisme dan karakter tajam Anda.</p>
@@ -198,7 +71,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="foto/e2.jpg" alt="T-shirt Encode">
+                        <img src="{{ asset('img/e2.jpg') }}" alt="T-shirt Encode">
                         <div class="card-body">
                             <h5>Black Shirt ENCODE</h5>
                             <p>Encode gaya adaptif untuk eksplorasi kota tanpa batas.</p>
@@ -208,7 +81,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="foto/e3.jpg" alt="T-shirt Encode">
+                        <img src="{{ asset('img/e3.jpg') }}" alt="T-shirt Encode">
                         <div class="card-body">
                             <h5>Casual-Shirt</h5>
                             <p>Struktur yang mendefinisikan kekuatan feminin yang elegan</p>
@@ -226,7 +99,7 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="foto/TS1.jpg" alt="Men Collection">
+                        <img src="{{ asset('img/TS1.jpg') }}" alt="Men Collection">
                         <div class="card-body text-center">
                             <h5>Shirt</h5>
                             <a href="shirt.html" class="btn btn-encode">SHOP NOW <i class="fas fa-arrow-right ms-2"></i></a>
@@ -235,7 +108,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="foto/S1.jpg" alt="Kids Collection">
+                        <img src="{{ asset('img/S1.jpg') }}" alt="Kids Collection">
                         <div class="card-body text-center">
                             <h5>T-Shirt</h5>
                             <a href="t-shirt.html" class="btn btn-encode">SHOP NOW <i class="fas fa-arrow-right ms-2"></i></a>
@@ -244,7 +117,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="foto/J1.jpg" alt="Women Collection">
+                        <img src="{{ asset('img/J1.jpg') }}" alt="Women Collection">
                         <div class="card-body text-center">
                             <h5>Jacket</h5>
                             <a href="jacket-sweater.html" class="btn btn-encode">SHOP NOW <i class="fas fa-arrow-right ms-2"></i></a>
@@ -261,28 +134,28 @@
             <h2 class="section-title">FEATURED PRODUCTS</h2>
             <div class="product-grid">
                 <div class="product-card">
-                    <img src="foto/J3.jpg" alt="">
+                    <img src="{{ asset('img/J3.jpg') }}" alt="">
                     <div class="card-body">
                         <h5 class="product-title">The Ciper Blazer</h5>
                         <p class="product-price">Rp 1,200</p>
                     </div>
                 </div>
                 <div class="product-card">
-                    <img src="foto/J2.jpg" alt="">
+                    <img src="{{ asset('img/J2.jpg') }}" alt="">
                     <div class="card-body">
                         <h5 class="product-title">E-Jacket</h5>
                         <p class="product-price">Rp 499</p>
                     </div>
                 </div>
                 <div class="product-card">
-                    <img src="foto/S2.jpg" alt="">
+                    <img src="{{ asset('img/S2.jpg') }}" alt="">
                     <div class="card-body">
                         <h5 class="product-title">Binary T-Shirt</h5>
                         <p class="product-price">Rp 99</p>
                     </div>
                 </div>
                 <div class="product-card">
-                    <img src="foto/TS2.jpg" alt="">
+                    <img src="{{ asset('img/TS2.jpg') }}" alt="">
                     <div class="card-body">
                         <h5 class="product-title">Blueprint Shirt</h5>
                         <p class="product-price">Rp 599</p>
