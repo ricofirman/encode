@@ -3,191 +3,152 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;      // Untuk query database
-use Illuminate\Support\Facades\Hash;    // Untuk hash password
-use Illuminate\Support\Facades\Session; // Untuk session
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class AuthController extends Controller
 {
-    // ===========================================
-    // 1. HALAMAN LOGIN (GET)
-    // ===========================================
+    /**
+     * Tampilkan halaman login
+     */
     public function showLoginPage()
     {
-        // Cek jika user sudah login
-        if (Session::has('user_id')) {
-            // Jika sudah login, langsung redirect ke dashboard
-            return $this->redirectToDashboard();
+        // Jika sudah login, redirect ke home
+        if (Session::has('is_logged_in')) {
+            return redirect('/');
         }
         
-        // Jika belum login, tampilkan halaman login
         return view('auth.login');
     }
     
-    // ===========================================
-    // 2. PROSES LOGIN (POST)
-    // ===========================================
+    /**
+     * Proses login user
+     */
     public function processLogin(Request $request)
     {
-    // 1. Ambil data dari form
-    $email = $request->input('email');
-    $password = $request->input('password');
-    
-    // 2. Cari user di database
-    $user = DB::table('users')
-            ->where('email', $email)
-            ->first();
-    
-    // 3. Cek user dan password
-    if (!$user) {
-        return back()->with('error', 'Email tidak ditemukan!');
-    }
-    
-    if (!Hash::check($password, $user->password)) {
-        return back()->with('error', 'Password salah!');
-    }
-    
-    // 4. Simpan session
-    Session::put('user_id', $user->id);
-    Session::put('user_name', $user->name);
-    Session::put('user_email', $user->email);
-    Session::put('user_role', $user->role);
-    Session::put('is_logged_in', true);
-    
-    // 5. Redirect berdasarkan role
-    if ($user->role == 'admin') {
-        return redirect('/admin/dashboard');
-    } else {
-        return redirect('/dashboard');
-    }
-    }
-    
-    // ===========================================
-    // 3. HALAMAN REGISTER (GET)
-    // ===========================================
-    public function showRegisterPage()
-    {
-        // Cek jika sudah login
-        if (Session::has('user_id')) {
-            return $this->redirectToDashboard();
+        $email = $request->input('email');
+        $password = $request->input('password');
+        
+        // Validasi input
+        if (empty($email) || empty($password)) {
+            // Jika AJAX request
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email dan password harus diisi!'
+                ], 422);
+            }
+            return back()->with('error', 'Email dan password harus diisi!');
         }
         
-        // Tampilkan halaman register
+        // Cari user dengan Model
+        $user = User::where('email', $email)->first();
+        
+        // Cek jika email tidak ditemukan
+        if (!$user) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email tidak ditemukan!'
+                ], 401);
+            }
+            return back()->with('error', 'Email tidak ditemukan!');
+        }
+        
+        // Cek password
+        if (!Hash::check($password, $user->password)) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password salah!'
+                ], 401);
+            }
+            return back()->with('error', 'Password salah!');
+        }
+        
+        // Login berhasil
+        Session::put('user_id', $user->id);
+        Session::put('user_name', $user->name);
+        Session::put('user_email', $user->email);
+        Session::put('user_role', $user->role);
+        Session::put('is_logged_in', true);
+        
+        // Redirect ke HOME PAGE (/) bukan dashboard
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Login berhasil!',
+                'redirect' => '/'  // Redirect ke home
+            ]);
+        }
+        
+        return redirect('/')->with('success', 'Login berhasil!');
+    }
+    
+    /**
+     * Tampilkan halaman register
+     */
+    public function showRegisterPage()
+    {
+        // Jika sudah login, redirect ke home
+        if (Session::has('is_logged_in')) {
+            return redirect('/');
+        }
+        
         return view('auth.register');
     }
     
-    // ===========================================
-    // 4. PROSES REGISTER (POST)
-    // ===========================================
-   public function processRegister(Request $request)
+    /**
+     * Proses register user baru
+     */
+    public function processRegister(Request $request)
     {
-    // 1. Ambil data dari form
-    $name = $request->input('name');
-    $email = $request->input('email');
-    $password = $request->input('password');
-    $confirm_password = $request->input('password_confirmation');
-    
-    // 2. Validasi sederhana
-    if (empty($name) || empty($email) || empty($password)) {
-        return back()->with('error', 'Semua field harus diisi!');
-    }
-    
-    if ($password !== $confirm_password) {
-        return back()->with('error', 'Password tidak sama!');
-    }
-    
-    // 3. Cek email sudah terdaftar
-    $existingUser = DB::table('users')->where('email', $email)->first();
-    if ($existingUser) {
-        return back()->with('error', 'Email sudah terdaftar!');
-    }
-    
-    // 4. Hash password
-    $hashedPassword = Hash::make($password);
-    
-    // 5. Simpan ke database
-    try {
-        DB::table('users')->insert([
-            'name' => $name,
-            'email' => $email,
-            'password' => $hashedPassword,
-            'role' => 'user',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $confirm_password = $request->input('password_confirmation');
         
-        // 6. Redirect ke login dengan pesan sukses
-        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
-        
-    } catch (\Exception $e) {
-        // 7. Jika error, tampilkan pesan
-        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-    }
-    }
-    
-    // ===========================================
-    // 5. HALAMAN DASHBOARD USER (GET)
-    // ===========================================
-    public function showUserDashboard()
-    {
-        // // Cek apakah user sudah login
-        // if (!Session::has('is_logged_in')) {
-        //     return redirect('/login')->with('error', 'Silakan login dulu!');
-        // }
-        
-        // Cek apakah user adalah admin (jika admin, redirect ke admin panel)
-        if (Session::get('user_role') == 'admin') {
-            return redirect('/admin/dashboard');
+        // Validasi
+        if (empty($name) || empty($email) || empty($password)) {
+            return back()->with('error', 'Semua field harus diisi!');
         }
         
-        // Tampilkan dashboard user
-        return view('dashboard');
-    }
-    
-    // ===========================================
-    // 6. HALAMAN DASHBOARD ADMIN (GET)
-    // ===========================================
-    public function showAdminDashboard()
-    {
-        // Cek apakah user sudah login
-        if (!Session::has('is_logged_in')) {
-            return redirect('/login')->with('error', 'Silakan login dulu!');
+        if ($password !== $confirm_password) {
+            return back()->with('error', 'Password tidak sama!');
         }
         
-        // Cek apakah user adalah admin
-        if (Session::get('user_role') != 'admin') {
-            return redirect('/dashboard')->with('error', 'Hanya admin yang bisa akses!');
+        if (strlen($password) < 6) {
+            return back()->with('error', 'Password minimal 6 karakter!');
         }
         
-        // Tampilkan dashboard admin
-        return view('admin.dashboard');
+        // Cek email sudah terdaftar
+        if (User::where('email', $email)->exists()) {
+            return back()->with('error', 'Email sudah terdaftar!');
+        }
+        
+        // Buat user baru
+        try {
+            User::create([
+                'name' => $name,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'role' => 'user',
+            ]);
+            
+            return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
+            
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
     
-    // ===========================================
-    // 7. PROSES LOGOUT (GET)
-    // ===========================================
+    /**
+     * Logout user
+     */
     public function processLogout()
     {
-        // Hapus semua session user
         Session::flush();
-        
-        // Redirect ke halaman login
         return redirect('/login')->with('success', 'Logout berhasil!');
-    }
-    
-    // ===========================================
-    // 8. FUNGSI BANTU: REDIRECT BERDASARKAN ROLE
-    // ===========================================
-    private function redirectToDashboard()
-    {
-        // Ambil role dari session
-        $role = Session::get('user_role');
-        
-        // Redirect berdasarkan role
-        if ($role == 'admin') {
-            return redirect('/admin/dashboard');
-        } else {
-            return redirect('/dashboard');
-        }
     }
 }
