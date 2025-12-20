@@ -1,223 +1,52 @@
 // File: public/js/auth.js
+// File ini untuk handle login dan register
 
-// ====== TOGGLE PASSWORD ======
-document.getElementById('togglePassword')?.addEventListener('click', function() {
-    const passwordInput = document.getElementById('password');
-    const icon = this.querySelector('i');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        icon.classList.remove('bi-eye');
-        icon.classList.add('bi-eye-slash');
-    } else {
-        passwordInput.type = 'password';
-        icon.classList.remove('bi-eye-slash');
-        icon.classList.add('bi-eye');
-    }
-});
-
-// ====== FUNGSI UTAMA VALIDASI LOGIN ======
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
-    
-    // Tampilkan error dari session saat page load
-    const sessionError = document.getElementById('session-error');
-    if (sessionError) {
-        const errorText = sessionError.textContent.replace('×', '').trim();
-        if (errorText) {
-            showToast(errorText, 'error');
-        }
-    }
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
+// ==================== 1. FUNGSI TOGGLE PASSWORD ====================
+// Fungsi untuk show/hide password
+function setupPasswordToggle() {
+    // Toggle untuk password utama (login dan register)
+    const togglePassword = document.getElementById('togglePassword');
+    if (togglePassword) {
+        togglePassword.addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
             
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            
-            resetValidationErrors();
-            
-            const isValid = validateLoginInput(email, password);
-            
-            if (isValid) {
-                showLoading(true);
-                submitLoginForm(email, password);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
             }
         });
     }
-});
-
-// ====== FUNGSI VALIDASI INPUT ======
-function validateLoginInput(email, password) {
-    let isValid = true;
     
-    if (!email) {
-        showError('email', 'Email harus diisi');
-        showToast('Email harus diisi', 'error');
-        isValid = false;
-    } else if (!isValidEmail(email)) {
-        showError('email', 'Format email tidak valid');
-        showToast('Format email tidak valid', 'error');
-        isValid = false;
-    } else {
-        showSuccess('email');
-    }
-    
-    if (!password) {
-        showError('password', 'Password harus diisi');
-        showToast('Password harus diisi', 'error');
-        isValid = false;
-    } else if (password.length < 6) {
-        showError('password', 'Password minimal 6 karakter');
-        showToast('Password minimal 6 karakter', 'error');
-        isValid = false;
-    } else {
-        showSuccess('password');
-    }
-    
-    return isValid;
-}
-
-// ====== FUNGSI BANTU ======
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function showError(fieldId, message) {
-    const field = document.getElementById(fieldId);
-    const errorDiv = document.getElementById(fieldId + '-error');
-    
-    if (field) {
-        field.classList.remove('is-valid');
-        field.classList.add('is-invalid');
-    }
-    
-    if (errorDiv) {
-        errorDiv.textContent = message;
-        errorDiv.style.display = 'block';
-    }
-}
-
-function showSuccess(fieldId) {
-    const field = document.getElementById(fieldId);
-    const errorDiv = document.getElementById(fieldId + '-error');
-    
-    if (field) {
-        field.classList.remove('is-invalid');
-        field.classList.add('is-valid');
-    }
-    
-    if (errorDiv) {
-        errorDiv.style.display = 'none';
-    }
-}
-
-function resetValidationErrors() {
-    ['email', 'password'].forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        const errorDiv = document.getElementById(fieldId + '-error');
-        
-        if (field) {
-            field.classList.remove('is-invalid', 'is-valid');
-        }
-        if (errorDiv) {
-            errorDiv.style.display = 'none';
-            errorDiv.textContent = '';
-        }
-    });
-}
-
-function showLoading(show) {
-    const submitBtn = document.getElementById('submitBtn');
-    
-    if (submitBtn) {
-        if (show) {
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memproses...';
-            submitBtn.disabled = true;
-        } else {
-            submitBtn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i> Masuk';
-            submitBtn.disabled = false;
-        }
-    }
-}
-
-// ====== KIRIM DATA KE SERVER ======
-function submitLoginForm(email, password) {
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
-    
-    fetch('/login', {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => {
-        // Cek status response
-        if (response.status === 500) {
-            throw new Error('Server error');
-        }
-        
-        // Cek content type
-        const contentType = response.headers.get('content-type');
-        
-        if (contentType && contentType.includes('application/json')) {
-            return response.json();
-        } else {
-            // Jika response bukan JSON (misal redirect)
-            if (response.redirected) {
-                window.location.href = response.url;
-                return;
-            }
-            return response.text().then(text => {
-                throw new Error('Unexpected response format');
-            });
-        }
-    })
-    .then(data => {
-        handleServerResponse(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showToast('Terjadi kesalahan. Silakan coba lagi.', 'error');
-        showLoading(false);
-    });
-}
-
-// ====== HANDLE RESPONSE DARI SERVER ======
-
-function handleServerResponse(data) {
-    showLoading(false);
-    
-    if (data.success) {
-        showToast(data.message || 'Login berhasil!', 'success');
-        
-        setTimeout(() => {
-            if (data.redirect) {
-                window.location.href = data.redirect; // Akan ke "/"
+    // Toggle untuk confirm password (hanya di register)
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    if (toggleConfirmPassword) {
+        toggleConfirmPassword.addEventListener('click', function() {
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
             } else {
-                window.location.href = '/'; // Redirect ke home
+                confirmPasswordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
             }
-        }, 1000);
-    } else {
-        if (data.errors) {
-            Object.keys(data.errors).forEach(field => {
-                showError(field, data.errors[field][0]);
-            });
-            showToast('Harap perbaiki form Anda', 'error');
-        } else {
-            showToast(data.message || 'Login gagal', 'error');
-        }
+        });
     }
 }
 
-// ====== TOAST NOTIFICATION ======
-function showToast(message, type = 'info') {
+// ==================== 2. FUNGSI TOAST (SAMA UNTUK LOGIN & REGISTER) ====================
+// Fungsi untuk menampilkan pesan toast
+function showToast(message, type = 'error') {
+    // Buat container toast jika belum ada
     let toastContainer = document.querySelector('.toast-container');
     if (!toastContainer) {
         toastContainer = document.createElement('div');
@@ -225,6 +54,7 @@ function showToast(message, type = 'info') {
         document.body.appendChild(toastContainer);
     }
     
+    // Buat toast element dengan style yang sama
     const toastId = 'toast-' + Date.now();
     const toastHtml = `
         <div id="${toastId}" class="toast align-items-center ${type === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}" role="alert">
@@ -237,53 +67,267 @@ function showToast(message, type = 'info') {
         </div>
     `;
     
+    // Tambahkan toast ke container
     toastContainer.insertAdjacentHTML('beforeend', toastHtml);
     
+    // Tampilkan toast
     const toastElement = document.getElementById(toastId);
     const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
     toast.show();
     
+    // Hapus toast setelah selesai
     toastElement.addEventListener('hidden.bs.toast', function () {
         this.remove();
     });
 }
 
-// ====== VALIDASI REAL-TIME ======
+// ==================== 3. FUNGSI VALIDASI EMAIL ====================
+// Cek apakah email valid
+function isValidEmail(email) {
+    return email.includes('@') && email.includes('.');
+}
+
+// ==================== 4. VALIDASI FORM REGISTER ====================
+function validateRegisterForm() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    let isValid = true;
+    
+    // Validasi nama
+    if (!name) {
+        document.getElementById('name-error').textContent = 'Nama harus diisi';
+        document.getElementById('name-error').style.display = 'block';
+        showToast('Nama harus diisi', 'error');
+        isValid = false;
+    } else {
+        document.getElementById('name-error').style.display = 'none';
+    }
+    
+    // Validasi email
+    if (!email) {
+        document.getElementById('email-error').textContent = 'Email harus diisi';
+        document.getElementById('email-error').style.display = 'block';
+        showToast('Email harus diisi', 'error');
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        document.getElementById('email-error').textContent = 'Email tidak valid';
+        document.getElementById('email-error').style.display = 'block';
+        showToast('Email tidak valid', 'error');
+        isValid = false;
+    } else {
+        document.getElementById('email-error').style.display = 'none';
+    }
+    
+    // Validasi password
+    if (!password) {
+        document.getElementById('password-error').textContent = 'Password harus diisi';
+        document.getElementById('password-error').style.display = 'block';
+        showToast('Password harus diisi', 'error');
+        isValid = false;
+    } else if (password.length < 6) {
+        document.getElementById('password-error').textContent = 'Password minimal 6 karakter';
+        document.getElementById('password-error').style.display = 'block';
+        showToast('Password minimal 6 karakter', 'error');
+        isValid = false;
+    } else {
+        document.getElementById('password-error').style.display = 'none';
+    }
+    
+    // Validasi konfirmasi password
+    if (!confirmPassword) {
+        document.getElementById('confirmPassword-error').textContent = 'Konfirmasi password harus diisi';
+        document.getElementById('confirmPassword-error').style.display = 'block';
+        showToast('Konfirmasi password harus diisi', 'error');
+        isValid = false;
+    } else if (password !== confirmPassword) {
+        document.getElementById('confirmPassword-error').textContent = 'Password tidak sama';
+        document.getElementById('confirmPassword-error').style.display = 'block';
+        showToast('Password tidak sama', 'error');
+        isValid = false;
+    } else {
+        document.getElementById('confirmPassword-error').style.display = 'none';
+    }
+    
+    return isValid;
+}
+
+// ==================== 5. VALIDASI FORM LOGIN ====================
+function validateLoginForm() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    
+    let isValid = true;
+    
+    // Validasi email
+    if (!email) {
+        document.getElementById('email-error').textContent = 'Email harus diisi';
+        document.getElementById('email-error').style.display = 'block';
+        showToast('Email harus diisi', 'error');
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        document.getElementById('email-error').textContent = 'Email tidak valid';
+        document.getElementById('email-error').style.display = 'block';
+        showToast('Email tidak valid', 'error');
+        isValid = false;
+    } else {
+        if (document.getElementById('email-error')) {
+            document.getElementById('email-error').style.display = 'none';
+        }
+    }
+    
+    // Validasi password
+    if (!password) {
+        document.getElementById('password-error').textContent = 'Password harus diisi';
+        document.getElementById('password-error').style.display = 'block';
+        showToast('Password harus diisi', 'error');
+        isValid = false;
+    } else if (password.length < 6) {
+        document.getElementById('password-error').textContent = 'Password minimal 6 karakter';
+        document.getElementById('password-error').style.display = 'block';
+        showToast('Password minimal 6 karakter', 'error');
+        isValid = false;
+    } else {
+        if (document.getElementById('password-error')) {
+            document.getElementById('password-error').style.display = 'none';
+        }
+    }
+    
+    return isValid;
+}
+
+// ==================== 6. KIRIM FORM REGISTER DENGAN AJAX ====================
+function submitRegisterForm() {
+    // Ambil data dari form
+    const formData = new FormData(document.getElementById('registerForm'));
+    
+    // Tampilkan loading
+    const submitBtn = document.getElementById('submitBtn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memproses...';
+    submitBtn.disabled = true;
+    
+    // Kirim dengan AJAX ke server
+    fetch('/register', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Kembalikan button ke normal
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        if (data.success) {
+            // Jika sukses, tampilkan toast sukses
+            showToast(data.message, 'success');
+            // Redirect ke login setelah 1.5 detik
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1500);
+        } else {
+            // Jika error, tampilkan pesan error dari server
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        // Jika ada error jaringan
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        showToast('Terjadi kesalahan, coba lagi', 'error');
+    });
+}
+
+// ==================== 7. KIRIM FORM LOGIN DENGAN AJAX ====================
+function submitLoginForm() {
+    // Ambil data dari form
+    const formData = new FormData(document.getElementById('loginForm'));
+    
+    // Tampilkan loading
+    const submitBtn = document.getElementById('submitBtn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memproses...';
+    submitBtn.disabled = true;
+    
+    // Kirim dengan AJAX ke server
+    fetch('/login', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Kembalikan button ke normal
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        if (data.success) {
+            // Jika sukses, tampilkan toast sukses
+            showToast(data.message, 'success');
+            // Redirect ke home setelah 1 detik
+            setTimeout(() => {
+                window.location.href = data.redirect || '/';
+            }, 1000);
+        } else {
+            // Jika error, tampilkan pesan error dari server
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        // Jika ada error jaringan
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        showToast('Terjadi kesalahan, coba lagi', 'error');
+    });
+}
+
+// ==================== 8. INISIALISASI SAAT PAGE LOAD ====================
 document.addEventListener('DOMContentLoaded', function() {
-    const emailInput = document.getElementById('email');
-    if (emailInput) {
-        emailInput.addEventListener('input', function() {
-            const email = this.value.trim();
-            if (email && !isValidEmail(email)) {
-                showError('email', 'Format email tidak valid');
-            } else if (email) {
-                showSuccess('email');
-            } else {
-                // Reset jika kosong
-                const errorDiv = document.getElementById('email-error');
-                if (errorDiv) {
-                    errorDiv.style.display = 'none';
-                }
-                this.classList.remove('is-invalid', 'is-valid');
+    // Setup toggle password
+    setupPasswordToggle();
+    
+    // Tampilkan toast dari session jika ada (untuk login)
+    const sessionError = document.getElementById('session-error');
+    if (sessionError) {
+        const errorText = sessionError.textContent.replace('×', '').trim();
+        if (errorText) {
+            showToast(errorText, 'error');
+        }
+    }
+    
+    // Handle form register
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Cegah reload page
+            
+            // Validasi di frontend
+            if (validateRegisterForm()) {
+                // Jika valid, kirim ke server dengan AJAX
+                submitRegisterForm();
             }
         });
     }
     
-    const passwordInput = document.getElementById('password');
-    if (passwordInput) {
-        passwordInput.addEventListener('input', function() {
-            const password = this.value;
-            if (password && password.length < 6) {
-                showError('password', 'Password minimal 6 karakter');
-            } else if (password) {
-                showSuccess('password');
-            } else {
-                // Reset jika kosong
-                const errorDiv = document.getElementById('password-error');
-                if (errorDiv) {
-                    errorDiv.style.display = 'none';
-                }
-                this.classList.remove('is-invalid', 'is-valid');
+    // Handle form login
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Cegah reload page
+            
+            // Validasi di frontend
+            if (validateLoginForm()) {
+                // Jika valid, kirim ke server dengan AJAX
+                submitLoginForm();
             }
         });
     }

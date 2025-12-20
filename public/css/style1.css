@@ -1,109 +1,109 @@
-       :root {
-            --adidas-black: #000000;
-            --adidas-white: #ffffff;
-            --adidas-gray: #f5f5f5;
-            --adidas-red: #ff0000;
-            --adidas-blue: #007bff;
-            --adidas-green: #28a745;
-            
-        }
-        
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: white;
-            color: var(--adidas-black);
-            padding: 0%;
-            width: 100% !important;
-        
-        }
+:root {
+    --adidas-black: #000000;
+    --adidas-white: #ffffff;
+    --adidas-gray: #f5f5f5;
+    --adidas-red: #ff0000;
+    --adidas-blue: #007bff;
+    --adidas-green: #28a745;
+    
+}
 
-        .navbar {
-            background-color: rgb(1, 1, 31);
-            padding: 1rem 2rem;
-            position: fixed !important;
-            width: 100%;
-            z-index: 1000;
-        }
-        
-        .brand {
-            color: white;
-            font-weight: bold;
-            font-size: 1.5rem;
-            text-decoration: none;
-        }
-        
-        .nav-link {
-            color: white;
-            margin: 0 0.5rem;
-        }
-        
-        .nav-link:hover {
-            color: white;
-        }
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: white;
+    color: var(--adidas-black);
+    padding: 0%;
+    width: 100% !important;
 
-        .footer {
-            background-color: rgb(1, 1, 31);
-            color: var(--adidas-white);
-            padding: 2rem 0rem 1rem 0rem;
-            margin-top: 3rem;
-            min-width: 100%;
-            
-        }
-        
-        .footer a {
-            color: var(--adidas-white);
-            text-decoration: none;
-        }
-        
-        .footer a:hover {
-            color: var(--adidas-red);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        
-        .social-icons i {
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        
-        .social-icons i:hover {
-            color: var(--adidas-red);
-        }
+}
 
-        .newsletter-form {
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .newsletter-form input {
-            flex: 1;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 5px;
-        }
-        
-        .newsletter-form button {
-            background-color: var(--adidas-black);
-            color: var(--adidas-white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        
-        .newsletter-form button:hover {
-            background-color: var(--adidas-red);
-        }
+.navbar {
+    background-color: rgb(1, 1, 31);
+    padding: 1rem 2rem;
+    position: fixed !important;
+    width: 100%;
+    z-index: 1000;
+}
 
-        .brand-background img {
-            width: 100%;
-        }
+.brand {
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.nav-link {
+    color: white;
+    margin: 0 0.5rem;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.footer {
+    background-color: rgb(1, 1, 31);
+    color: var(--adidas-white);
+    padding: 2rem 0rem 1rem 0rem;
+    margin-top: 3rem;
+    min-width: 100%;
+    
+}
+
+.footer a {
+    color: var(--adidas-white);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: var(--adidas-red);
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.social-icons i {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.social-icons i:hover {
+    color: var(--adidas-red);
+}
+
+.newsletter-form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+}
+
+.newsletter-form button {
+    background-color: var(--adidas-black);
+    color: var(--adidas-white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: var(--adidas-red);
+}
+
+.brand-background img {
+    width: 100%;
+}

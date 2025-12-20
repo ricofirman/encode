@@ -160,18 +160,14 @@ body {
 
 /* Link Konsisten */
 .auth-link {
-    color: var(--gray-700);
+    color: white;
     text-decoration: none;
     font-size: 0.95rem;
     font-weight: 500;
     transition: color 0.2s;
 }
 
-.auth-link:hover {
-    color: var(--dark);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-}
+
 
 /* Animasi */
 @keyframes slideIn {

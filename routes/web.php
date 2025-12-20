@@ -2,25 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 
 // ===========================================
 // 1. PUBLIC PAGES
 // ===========================================
+
+// admin
+route::get('/admin', function() {
+    return view('admin.index');
+})->name('admin');
+
+
 
 // Home page
 Route::get('/', function() {
     return view('dashboard');
 })->name('home');
 
-// Products page (gabung semua kategori)
-Route::get('/products', function() {
-    return view('pages.products');
-})->name('products');
-
-// Product detail page
-Route::get('/product/{slug}', function($slug) {
-    return view('pages.product-detail', ['slug' => $slug]);
-})->name('product.detail');
 
 // Contact page
 Route::get('/contact', function() {
@@ -92,3 +91,11 @@ Route::get('/jacket-sweater', function() {
 // ===========================================
 // 5. ADMIN ROUTES (Tetap sama)
 // ===========================================
+
+
+// Product Routes
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('products.show');
+
+// web.php - PERBAIKI INI:
+

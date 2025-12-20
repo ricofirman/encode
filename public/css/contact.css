@@ -1,75 +1,75 @@
-        
-        .breadcrumb {
-            background-color: transparent;
-            padding: 1rem 0;
-        }
-        
-        .contact-info {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .contact-info h3 {
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--adidas-red);
-            padding-bottom: 0.5rem;
-        }
-        
-        .contact-method {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .contact-method i {
-            font-size: 1.5rem;
-            color: var(--adidas-red);
-            margin-right: 1rem;
-        }
-        
-        .contact-form {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-        
-        .contact-form h3 {
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--adidas-red);
-            padding-bottom: 0.5rem;
-        }
-        
-        .form-control {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        
-        .btn-adidas {
-            background-color: var(--adidas-black);
-            color: var(--adidas-white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-adidas:hover {
-            background-color: var(--adidas-red);
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 768px) {
-            .contact-header h1 {
-                font-size: 2rem;
-            }
-            
-            .navbar {
-                padding: 0.5rem 1rem;
-            }
-        }
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 1rem 0;
+}
+
+.contact-info {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.contact-info h3 {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--adidas-red);
+    padding-bottom: 0.5rem;
+}
+
+.contact-method {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.contact-method i {
+    font-size: 1.5rem;
+    color: var(--adidas-red);
+    margin-right: 1rem;
+}
+
+.contact-form {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.contact-form h3 {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--adidas-red);
+    padding-bottom: 0.5rem;
+}
+
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.btn-adidas {
+    background-color: var(--adidas-black);
+    color: var(--adidas-white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-adidas:hover {
+    background-color: var(--adidas-red);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .contact-header h1 {
+        font-size: 2rem;
+    }
+    
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+}

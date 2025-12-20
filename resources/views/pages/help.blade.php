@@ -2,7 +2,7 @@
 
 @section('title', 'Shopping Cart - ENCODE')
 
-@section('styles')
+@section('content')
     
     <link rel="stylesheet" href="{{ asset('css/help.css') }}">
     <!-- Main Content -->

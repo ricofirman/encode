@@ -41,6 +41,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
       @endif
+     
       
       <form id="loginForm" method="POST" action="/login">
         <?php echo csrf_field(); ?>
@@ -91,24 +92,20 @@
         <button type="submit" class="btn btn-auth w-100 mb-3" id="submitBtn">
           <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
         </button>
+      </form>
+        <button class="btn btn-auth w-100 mb-3"
+                onclick="window.location.href='{{ url('/dashboard') }}'">
+          masuk sebagai guest
+        </button>
 
-        <div class="text-center mt-4 pt-2 border-top border-light">
+
+        <div class="text-center mt-1 border-top border-light">
           <span class="text-muted small">
               Belum punya akun? 
-              <a href="{{ url('/register') }}" class="link">Buat akun</a>
+              <a href="{{ url('/register') }}" >Buat akun</a>
           </span>
         </div>
-        
-        <!-- Sign up link -->
-        <div class="text-center mt-4 pt-2 border-top border-light">
-          <span class="text-muted small">
-            Belum punya akun? 
-            <a href="{{ url('/register') }}" class="link">Buat akun</a>
-          </span>
-        </div>
-      </form>
-    </div>
-  </div>
+
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -17,31 +17,31 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="{{ asset('img/e1.jpg') }}" alt="T-shirt Encode">
+                        <img src="{{ asset('img/display/e1.jpg') }}" alt="T-shirt Encode">
                         <div class="card-body">
                             <h5>Streetwear E</h5>
-                            <p>Struktur yang berbicara. Kodekan profesionalisme dan karakter tajam Anda.</p>
-                            <a href="{{ url('/product/streetwear-e') }}" class="btn btn-encode">SHOP NOW</a>
+                            <p>Struktur yang berbicara. Kodekan karakter yang sangat tajam.</p>
+                            <a href="{{ url('/products') }}" class="btn btn-encode">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="{{ asset('img/e2.jpg') }}" alt="T-shirt Encode">
+                        <img src="{{ asset('img/display/e2.jpg') }}" alt="T-shirt Encode">
                         <div class="card-body">
                             <h5>Black Shirt ENCODE</h5>
                             <p>Encode gaya adaptif untuk eksplorasi kota tanpa batas.</p>
-                            <a href="{{ url('/product/black-shirt') }}" class="btn btn-encode">SHOP NOW</a>
+                            <a href="{{ url('/products') }}" class="btn btn-encode">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="{{ asset('img/e3.jpg') }}" alt="T-shirt Encode">
+                        <img src="{{ asset('img/display/e3.jpg') }}" alt="T-shirt Encode">
                         <div class="card-body">
                             <h5>Casual-Shirt</h5>
                             <p>Struktur yang mendefinisikan kekuatan feminin yang elegan</p>
-                            <a href="{{ url('/product/casual-shirt') }}" class="btn btn-encode">SHOP NOW</a>
+                            <a href="{{ url('/products') }}" class="btn btn-encode">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
@@ -55,28 +55,28 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="{{ asset('img/TS1.jpg') }}" alt="Shirt Collection">
+                        <img src="{{ asset('img/display/TS1.jpg') }}" alt="Shirt Collection">
                         <div class="card-body text-center">
                             <h5>Shirt</h5>
-                            <a href="{{ url('/products?category=shirt') }}" class="btn btn-encode">SHOP NOW</a>
+                            <a href="{{ url('/products') }}" class="btn btn-encode">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="{{ asset('img/S1.jpg') }}" alt="T-Shirt Collection">
+                        <img src="{{ asset('img/display/S1.jpg') }}" alt="T-Shirt Collection">
                         <div class="card-body text-center">
                             <h5>T-Shirt</h5>
-                            <a href="{{ url('/products?category=t-shirt') }}" class="btn btn-encode">SHOP NOW</a>
+                            <a href="{{ url('/products') }}" class="btn btn-encode">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="{{ asset('img/J1.jpg') }}" alt="Jacket Collection">
+                        <img src="{{ asset('img/display/J1.jpg') }}" alt="Jacket Collection">
                         <div class="card-body text-center">
                             <h5>Jacket</h5>
-                            <a href="{{ url('/products?category=jacket') }}" class="btn btn-encode">SHOP NOW</a>
+                            <a href="{{ url('/products') }}" class="btn btn-encode">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
@@ -90,38 +90,38 @@
             <h2 class="section-title">FEATURED PRODUCTS</h2>
             <div class="product-grid">
                 <div class="product-card">
-                    <a href="{{ url('/product/ciper-blazer') }}">
-                        <img src="{{ asset('img/J3.jpg') }}" alt="">
+                    <a id="link" href="{{ url('/products') }}">
+                        <img src="{{ asset('img/j13.png') }}" alt="">
                         <div class="card-body">
-                            <h5 class="product-title">The Ciper Blazer</h5>
-                            <p class="product-price">Rp 1,200</p>
+                            <h5 class="product-title">Tunder black jacket</h5>
+                            <p class="product-price">Rp 699.000</p>
                         </div>
                     </a>
                 </div>
                 <div class="product-card">
-                    <a href="{{ url('/product/e-jacket') }}">
-                        <img src="{{ asset('img/J2.jpg') }}" alt="">
+                    <a id="link" href="{{ url('/products') }}">
+                        <img src="{{ asset('img/j2.png') }}" alt="">
                         <div class="card-body">
-                            <h5 class="product-title">E-Jacket</h5>
-                            <p class="product-price">Rp 499</p>
+                            <h5 class="product-title">Black light jacket</h5>
+                            <p class="product-price">Rp 399.000</p>
                         </div>
                     </a>
                 </div>
                 <div class="product-card">
-                    <a href="{{ url('/product/binary-t-shirt') }}">
-                        <img src="{{ asset('img/S2.jpg') }}" alt="">
+                    <a id="link" href="{{ url('/products') }}">
+                        <img src="{{ asset('img/s12.png') }}" alt="">
                         <div class="card-body">
-                            <h5 class="product-title">Binary T-Shirt</h5>
-                            <p class="product-price">Rp 99</p>
+                            <h5 class="product-title">Casual vibe shirt</h5>
+                            <p class="product-price">Rp 179.000</p>
                         </div>
                     </a>
                 </div>
                 <div class="product-card">
-                    <a href="{{ url('/product/blueprint-shirt') }}">
-                        <img src="{{ asset('img/TS2.jpg') }}" alt="">
+                    <a id="link" href="{{ url('/products') }}">
+                        <img src="{{ asset('img/j4.png') }}" alt="">
                         <div class="card-body">
-                            <h5 class="product-title">Blueprint Shirt</h5>
-                            <p class="product-price">Rp 599</p>
+                            <h5  class="product-title">Colorful sweater</h5>
+                            <p style="link" class="product-price">Rp 799.000</p>
                         </div>
                     </a>
                 </div>

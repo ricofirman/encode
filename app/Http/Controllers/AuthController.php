@@ -14,7 +14,6 @@ class AuthController extends Controller
      */
     public function showLoginPage()
     {
-        // Jika sudah login, redirect ke home
         if (Session::has('is_logged_in')) {
             return redirect('/');
         }
@@ -32,7 +31,6 @@ class AuthController extends Controller
         
         // Validasi input
         if (empty($email) || empty($password)) {
-            // Jika AJAX request
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
@@ -42,7 +40,7 @@ class AuthController extends Controller
             return back()->with('error', 'Email dan password harus diisi!');
         }
         
-        // Cari user dengan Model
+        // Cari user di database
         $user = User::where('email', $email)->first();
         
         // Cek jika email tidak ditemukan
@@ -74,12 +72,11 @@ class AuthController extends Controller
         Session::put('user_role', $user->role);
         Session::put('is_logged_in', true);
         
-        // Redirect ke HOME PAGE (/) bukan dashboard
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Login berhasil!',
-                'redirect' => '/'  // Redirect ke home
+                'redirect' => '/'
             ]);
         }
         
@@ -91,7 +88,6 @@ class AuthController extends Controller
      */
     public function showRegisterPage()
     {
-        // Jika sudah login, redirect ke home
         if (Session::has('is_logged_in')) {
             return redirect('/');
         }
@@ -111,23 +107,47 @@ class AuthController extends Controller
         
         // Validasi
         if (empty($name) || empty($email) || empty($password)) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Semua field harus diisi!'
+                ], 422);
+            }
             return back()->with('error', 'Semua field harus diisi!');
         }
         
         if ($password !== $confirm_password) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password tidak sama!'
+                ], 422);
+            }
             return back()->with('error', 'Password tidak sama!');
         }
         
         if (strlen($password) < 6) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Password minimal 6 karakter!'
+                ], 422);
+            }
             return back()->with('error', 'Password minimal 6 karakter!');
         }
         
-        // Cek email sudah terdaftar
+        // Cek email sudah terdaftar di database
         if (User::where('email', $email)->exists()) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email sudah terdaftar!'
+                ], 422);
+            }
             return back()->with('error', 'Email sudah terdaftar!');
         }
         
-        // Buat user baru
+        // Buat user baru dengan fungsi create (CRUD)
         try {
             User::create([
                 'name' => $name,
@@ -136,9 +156,24 @@ class AuthController extends Controller
                 'role' => 'user',
             ]);
             
+            // Untuk AJAX request
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registrasi berhasil! Silakan login.'
+                ]);
+            }
+            
+            // Untuk normal request
             return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
             
         } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                ], 500);
+            }
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }

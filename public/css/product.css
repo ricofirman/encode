@@ -1,12 +1,10 @@
 /* PRODUCT CARD STYLE */
-.product-card {
-    border: 1px solid #eee;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s;
-    height: 100%;
-    background: white;
+
+.product-item {
+    padding: 1rem!important;
+
 }
+
 
 .product-card:hover {
     transform: translateY(-5px);
@@ -87,7 +85,7 @@
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 380px) {
     .product-grid {
         grid-template-columns: 1fr;
     }
