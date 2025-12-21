@@ -5,10 +5,54 @@
 @section('content')
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="brand-background">
-            <img src="{{ asset('img/BDB.png') }}" alt="">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+
+        {{-- Indicator --}}
+        <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
         </div>
+
+        {{-- Slides --}}
+        <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <video class="d-block w-100 hero-img" autoplay muted loop playsinline preload="auto">
+            <source src="{{ asset('video/BDBV1.mp4') }}" type="video/mp4">
+            Browser kamu tidak mendukung video.
+        </video>
+        </div>
+
+
+        <div class="carousel-item">
+            <video class="d-block w-100 hero-img" autoplay muted loop playsinline preload="auto">
+            <source src="{{ asset('video/BDBV.mp4') }}" type="video/mp4">
+            Browser kamu tidak mendukung video.
+            </video>
+        </div>
+
+        <div class="carousel-item">
+            <img src="{{ asset('img/BDBP.png') }}" class="d-block w-100 hero-img" alt="Slide 3">
+        </div>
+
+        </div>
+
+        {{-- Controls --}}
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+
+    </div>
     </section>
+
+
     
     <!-- Categories Section -->
     <section class="category-section">

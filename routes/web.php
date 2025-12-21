@@ -69,6 +69,16 @@ Route::get('/order-status', function() {
     return view('pages.order-status');
 })->name('order-status');
 
+
+
+
+// MIDTRANS CEKIDOT CELO JANGAN DIPINDAH !!!!!!!!!
+use App\Http\Controllers\CheckoutController;
+Route::post('/checkout/token', [CheckoutController::class, 'token'])->name('checkout.token');
+
+
+
+
 // ===========================================
 // 4. REDIRECT OLD URLS (Backward compatibility)
 // ===========================================

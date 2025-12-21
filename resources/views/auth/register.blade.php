@@ -148,6 +148,72 @@
 
   <!-- Auth JavaScript -->
   <script src="{{ asset('js/auth.js') }}"></script>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-person"></i></span>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Nama lengkap" required>
+      </div>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+        <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
+      </div>
+      
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+        <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+
+        <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Toggle password">
+          <i class="bi bi-eye" id="iconPassword"></i>
+        </button>
+      </div>
+
+      <div class="input-group mt-3">
+        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+        <input type="password" class="form-control" id="confirmPassword" name="password_confirmation" placeholder="konfirmasi password" required>
+
+        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword" aria-label="Toggle confirm password">
+          <i class="bi bi-eye" id="iconConfirmPassword"></i>
+        </button>
+      </div>
+
+      <button type="submit" class="btn btn-auth">
+        <i class="bi bi-person-plus me-1 "></i> Daftar
+      </button>
+      <div class="text-center mt-4 pt-2 border-top border-light">
+        <span class="text-muted small">Sudah punya akun? <a href="login" class="link">Masuk</a></span>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<script>
+  function setupToggle(inputId, buttonId, iconId) {
+    const input = document.getElementById(inputId);
+    const button = document.getElementById(buttonId);
+    const icon = document.getElementById(iconId);
+
+    if (!input || !button || !icon) return;
+
+    button.addEventListener('click', () => {
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+
+      // ganti icon
+      icon.classList.toggle('bi-eye', !isPassword);
+      icon.classList.toggle('bi-eye-slash', isPassword);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupToggle('password', 'togglePassword', 'iconPassword');
+    setupToggle('confirmPassword', 'toggleConfirmPassword', 'iconConfirmPassword');
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="{{ asset('js/auth.js') }}"></script> -->
 
 </body>
 </html>

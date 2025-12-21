@@ -84,7 +84,7 @@
 
 <style>
     body {
-        padding-top: 76px !important;
+        padding-top: 50px !important;
     }
     
     .nav-link.active {
