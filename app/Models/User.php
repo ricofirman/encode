@@ -47,6 +47,10 @@ class User extends Authenticatable
         ];
     }
     
+    // ============================================
+    // ROLE MANAGEMENT FUNCTIONS (Untuk admin/user)
+    // ============================================
+    
     /**
      * Check if user is admin
      */
@@ -88,7 +92,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get role label
+     * Get role label (Untuk tampilan)
      */
     public function getRoleLabelAttribute(): string
     {
@@ -100,7 +104,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get role badge class
+     * Get role badge class (Untuk warna badge)
      */
     public function getRoleBadgeClassAttribute(): string
     {
@@ -110,4 +114,86 @@ class User extends Authenticatable
             default => 'badge bg-secondary'
         };
     }
+    
+    // ============================================
+    // CART FUNCTIONS (Untuk shopping cart)
+    // ============================================
+    
+    /**
+     * Get user's cart items (Relationship ke CartItem)
+     */
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    /**
+     * Get total items in cart (Untuk badge di navbar)
+     */
+    public function cartCount(): int
+    {
+        return $this->cartItems()->sum('quantity');
+    }
+
+    /**
+     * Check if product is already in user's cart
+     */
+    public function hasInCart($product_id): bool
+    {
+        return $this->cartItems()->where('product_id', $product_id)->exists();
+    }
+
+    /**
+     * Get cart total price (Untuk checkout)
+     */
+    public function cartTotal(): float
+    {
+        $total = 0;
+        $items = $this->cartItems()->with('product')->get();
+        
+        foreach ($items as $item) {
+            $total += $item->product->price * $item->quantity;
+        }
+        
+        return $total;
+    }
+
+    /**
+     * Get formatted cart total (Rp 99.000)
+     */
+    public function cartTotalFormatted(): string
+    {
+        return 'Rp ' . number_format($this->cartTotal(), 0, ',', '.');
+    }
+
+    /**
+     * Get or create cart item for product
+     */
+    public function getCartItem($product_id)
+    {
+        return $this->cartItems()->where('product_id', $product_id)->first();
+    }
+    
+    // ============================================
+    // HELPER FUNCTIONS (Untuk berbagai keperluan)
+    // ============================================
+    
+    /**
+     * Get user's display name (Bisa dipakai untuk greeting)
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->name ?: explode('@', $this->email)[0];
+    }
+
+    /**
+     * Check if user can access admin area
+     */
+    public function canAccessAdmin(): bool
+    {
+        return $this->isAdmin() && $this->is_active; // Jika ada kolom is_active
+    }
+
+
+    
 }

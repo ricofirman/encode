@@ -54,7 +54,6 @@
         </div>
     </section>
 @endsection
-
 @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -89,6 +88,9 @@
                         
                         // Update products container
                         document.querySelector('#products-container').innerHTML = newProducts;
+                        
+                        // Re-attach event listeners untuk tombol add to cart yang baru
+                        attachCartListeners();
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -98,38 +100,110 @@
             });
         });
         
-        // Handle add to cart button (akan kita buat nanti)
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('add-to-cart')) {
-                e.preventDefault();
-                const productId = e.target.getAttribute('data-product-id');
-                addToCart(productId);
-            }
-        });
-        
-        function addToCart(productId) {
-            // Kirim AJAX request untuk add to cart
-            fetch('/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({ product_id: productId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Product added to cart!');
-                } else {
-                    alert('Failed to add product to cart');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error adding to cart');
+        // Attach event listeners untuk tombol add to cart
+        function attachCartListeners() {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+                    addToCart(productId);
+                });
             });
         }
+        
+        // Initial attachment
+        attachCartListeners();
     });
+    
+    // Function untuk show toast (sama dengan di auth.js)
+    function showToast(message, type = 'success') {
+        let toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+            document.body.appendChild(toastContainer);
+        }
+        
+        const toastId = 'toast-' + Date.now();
+        const toastHtml = `
+            <div id="${toastId}" class="toast align-items-center ${type === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${type === 'success' ? '✅' : '⚠️'} ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `;
+        
+        toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+        
+        const toastElement = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+        toast.show();
+        
+        toastElement.addEventListener('hidden.bs.toast', function () {
+            this.remove();
+        });
+    }
+    
+    // Function addToCart dengan toast notification
+    function addToCart(productId) {
+        fetch('/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ product_id: productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect) {
+                // Belum login, redirect ke login dengan toast
+                showToast('Please login to add to cart', 'error');
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1500);
+            } else if (data.success) {
+                // Show success toast
+                showToast(data.message, 'success');
+                
+                // Update cart badge di navbar
+                updateCartBadge(data.count);
+            } else {
+                showToast(data.message || 'Failed to add to cart', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('Error adding to cart', 'error');
+        });
+    }
+    
+    // Update cart badge di navbar
+    // Simple version - langsung update badge yang ada
+    function updateCartBadge(count) {
+        // Cari semua badge di cart link
+        const cartLinks = document.querySelectorAll('a[href*="cart"]');
+        
+        cartLinks.forEach(cartLink => {
+            let badge = cartLink.querySelector('.badge');
+            
+            if (count > 0) {
+                if (badge) {
+                    badge.textContent = count;
+                } else {
+                    // Create badge
+                    const newBadge = document.createElement('span');
+                    newBadge.className = 'badge bg-danger';
+                    newBadge.textContent = count;
+                    cartLink.appendChild(newBadge);
+                }
+            } else if (badge) {
+                badge.remove();
+            }
+        });
+    }
 </script>
 @endsection

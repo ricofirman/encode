@@ -72,4 +72,10 @@ class Product extends Model
             default => ucfirst($this->category)
         };
     }
+    
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 }
+

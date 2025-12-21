@@ -28,9 +28,11 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('cart') ? 'active' : '' }}" href="{{ url('/cart') }}">
                             <i class="bi bi-cart3"></i> Cart
+                            @if(Session::has('cart_count') && Session::get('cart_count') > 0)
+                                <span class="badge bg-danger cart-badge">{{ Session::get('cart_count') }}</span>
+                            @endif
                         </a>
                     </li>
-                    
                     <!-- Dropdown User -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">

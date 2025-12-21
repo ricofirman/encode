@@ -65,13 +65,19 @@ class AuthController extends Controller
             return back()->with('error', 'Password salah!');
         }
         
-        // Login berhasil
+        // ============ LOGIN BERHASIL ============
+        
+        // Set session data
         Session::put('user_id', $user->id);
         Session::put('user_name', $user->name);
         Session::put('user_email', $user->email);
         Session::put('user_role', $user->role);
         Session::put('is_logged_in', true);
         
+        // Set cart count di session
+        Session::put('cart_count', $user->cartCount());
+        
+        // Response
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'success' => true,
@@ -147,9 +153,9 @@ class AuthController extends Controller
             return back()->with('error', 'Email sudah terdaftar!');
         }
         
-        // Buat user baru dengan fungsi create (CRUD)
+        // Buat user baru
         try {
-            User::create([
+            $user = User::create([
                 'name' => $name,
                 'email' => $email,
                 'password' => Hash::make($password),

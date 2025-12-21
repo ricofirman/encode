@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 // ===========================================
 // 1. PUBLIC PAGES
@@ -99,3 +100,9 @@ Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product
 
 // web.php - PERBAIKI INI:
 
+// Cart Routes
+// Cart Routes
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
