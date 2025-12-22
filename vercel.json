@@ -4,6 +4,9 @@
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.7.4" }
     },
+
+
+    
     "routes": [
         {
             "src": "/(.*)",
@@ -16,6 +19,8 @@
         "APP_URL": "https://your.url.from.vercel.app",
         "APP_KEY": "add API key here from your .env file",
 
+        "buildCommand": "mkdir -p api && cp public/index.php api/ && composer install --no-dev",
+        "installCommand": "composer install --no-dev --optimize-autoloader",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
