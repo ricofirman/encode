@@ -2,8 +2,6 @@
 
 @section('title', 'Products Management - ENCODE')
 
-@section('active-products', 'active')
-
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 mb-0">Products Management</h1>
@@ -41,9 +39,15 @@
                     <tr>
                         <td>{{ $product->id }}</td>
                         <td>
-                            <img src="{{ asset('img/' . $product->image) }}" 
-                                 alt="{{ $product->name }}" 
-                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                            @if($product->image)
+                                <img src="{{ asset('img/' . $product->image) }}" 
+                                     alt="{{ $product->name }}" 
+                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                            @else
+                                <div style="width: 50px; height: 50px; background: #f8f9fa; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-image text-muted"></i>
+                                </div>
+                            @endif
                         </td>
                         <td>
                             <strong>{{ $product->name }}</strong>
@@ -98,9 +102,6 @@
                 </tbody>
             </table>
         </div>
-        
-        <!-- Pagination -->
-        {{ $products->links() }}
     </div>
 </div>
 @endsection

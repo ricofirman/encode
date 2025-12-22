@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'ENCODE')</title>
-    
-    <!-- CSRF TOKEN (HARUS ADA UNTUK AJAX) -->
+
+    <!-- Prevent Caching for Logged In Users -->
+    @if(Session::has('is_logged_in'))
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    @endif
+
+    <!-- CSRF TOKEN -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- Bootstrap CSS -->

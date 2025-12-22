@@ -22,9 +22,7 @@
                 
                 <!-- Menu khusus untuk USER YANG LOGIN -->
                 @if(Session::has('is_logged_in'))
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('order-status') ? 'active' : '' }}" href="{{ url('/order-status') }}">Order Status</a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('cart') ? 'active' : '' }}" href="{{ url('/cart') }}">
                             <i class="bi bi-cart3"></i> Cart
@@ -33,6 +31,7 @@
                             @endif
                         </a>
                     </li>
+                    
                     <!-- Dropdown User -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -47,14 +46,24 @@
                                 <li><a class="dropdown-item" href="{{ url('/admin/dashboard') }}">
                                     <i class="bi bi-speedometer2 me-2"></i>Admin Dashboard
                                 </a></li>
+                                <li><hr class="dropdown-divider"></li>
                             @endif
                             
+                            <!-- Profile Settings -->
                             <li><a class="dropdown-item" href="{{ url('/profile') }}">
                                 <i class="bi bi-person me-2"></i>My Profile
                             </a></li>
-                            <li><a class="dropdown-item" href="{{ url('/my-orders') }}">
-                                <i class="bi bi-bag me-2"></i>My Orders
+                            
+                            <!-- Change Name -->
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changeNameModal">
+                                <i class="bi bi-pencil-square me-2"></i>Change Name
                             </a></li>
+                            
+                            <!-- Change Password -->
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                <i class="bi bi-key me-2"></i>Change Password
+                            </a></li>
+                            
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-danger" href="{{ url('/logout') }}">
@@ -82,6 +91,69 @@
     </div>
 </nav>
 
+<!-- Modal Change Name -->
+<div class="modal fade" id="changeNameModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Your Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="changeNameForm" action="{{ url('/profile/change-name') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Current Name</label>
+                        <input type="text" class="form-control" value="{{ Session::get('user_name') }}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">New Name *</label>
+                        <input type="text" name="name" class="form-control" required 
+                               placeholder="Enter your new name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Name</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Change Password -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="changePasswordForm" action="{{ url('/profile/change-password') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Current Password *</label>
+                        <input type="password" name="current_password" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">New Password *</label>
+                        <input type="password" name="new_password" class="form-control" required minlength="6">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirm New Password *</label>
+                        <input type="password" name="new_password_confirmation" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <style>
     body {
         padding-top: 76px !important;
@@ -96,4 +168,11 @@
         font-size: 0.6rem;
         margin-left: 3px;
     }
+    
+    .dropdown-header {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
 </style>
+
+<script src="{{ asset('js/auth-nav.js') }}"></script>
