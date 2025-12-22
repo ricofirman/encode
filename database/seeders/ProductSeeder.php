@@ -23,6 +23,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'j1.png',
                 'stock' => 10,
+                'is_active' => 1,
             ],
             [
                 'name' => 'black Light Jacket',
@@ -32,6 +33,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J2.png',
                 'stock' => 15,
+                'is_active' => 1,
             ],
             [
                 'name' => 'sweater snow white',
@@ -41,6 +43,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J3.png',
                 'stock' => 11,
+                'is_active' => 1,
             ],
             [
                 'name' => 'colorful sweater ',
@@ -50,6 +53,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J4.png',
                 'stock' => 13,
+                'is_active' => 1,
             ],
             [
                 'name' => 'color sweater ',
@@ -59,6 +63,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J5.png',
                 'stock' => 20,
+                'is_active' => 1,
             ],
             [
                 'name' => 'dinamis color sweater ',
@@ -68,6 +73,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J6.png',
                 'stock' => 8,
+                'is_active' => 1,
             ],
             [
                 'name' => 'leaf sweater ',
@@ -77,6 +83,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J7.png',
                 'stock' => 12,
+                'is_active' => 1,
             ],
             [
                 'name' => 'leafer sweater ',
@@ -86,6 +93,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J8.png',
                 'stock' => 14,
+                'is_active' => 1,
             ],
             [
                 'name' => 'classic sweater ',
@@ -95,6 +103,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J9.png',
                 'stock' => 9,
+                'is_active' => 1,
             ],
             [
                 'name' => 'dark encode sweater ',
@@ -104,6 +113,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J10.png',
                 'stock' => 7,
+                'is_active' => 1,
             ],
             [
                 'name' => 'rider dark jacket ',
@@ -113,6 +123,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J11.png',
                 'stock' => 6,
+                'is_active' => 1,
             ],
             [
                 'name' => 'warm sweater encode ',
@@ -122,6 +133,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J12.png',
                 'stock' => 10,
+                'is_active' => 1,
             ],
             [
                 'name' => 'tunder black jacket  ',
@@ -131,6 +143,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J13.png',
                 'stock' => 15,
+                'is_active' => 1,
             ],
             [
                 'name' => 'gradient light sweater ',
@@ -140,6 +153,7 @@ class ProductSeeder extends Seeder
                 'category' => 'jacket',
                 'image' => 'J14.png',
                 'stock' => 18,
+                'is_active' => 1,
             ],
             
             // Shirt Products ===========================================================================
@@ -151,6 +165,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's1.png',
                 'stock' => 25,
+                'is_active' => 1,
             ],
             [
                 'name' => 'blue casual Shirt',
@@ -160,6 +175,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's2.png',
                 'stock' => 35,
+                'is_active' => 1,
             ],
             [
                 'name' => 'dark Shirt',
@@ -169,6 +185,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's3.png',
                 'stock' => 20,
+                'is_active' => 1,
             ],
             [
                 'name' => 'grey brave Shirt',
@@ -178,6 +195,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's4.png',
                 'stock' => 30,
+                'is_active' => 1,
             ],
             [
                 'name' => 'white casual Shirt',
@@ -187,6 +205,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's5.png',
                 'stock' => 28,
+                'is_active' => 1,
             ],
             [
                 'name' => 'modern Shirt',
@@ -196,6 +215,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's6.png',
                 'stock' => 22,
+                'is_active' => 1,
             ],
             [
                 'name' => 'wave rainbow Shirt',
@@ -205,6 +225,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's7.png',
                 'stock' => 26,
+                'is_active' => 1,
             ],
             [
                 'name' => 'grafik Shirt',
@@ -214,6 +235,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's8.png',
                 'stock' => 18,
+                'is_active' => 1,
             ], 
             [
                 'name' => 'flexing Shirt',
@@ -223,6 +245,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's9.png',
                 'stock' => 32,
+                'is_active' => 1,
             ],
             [
                 'name' => 'stylis Shirt',
@@ -232,6 +255,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's10.png',
                 'stock' => 24,
+                'is_active' => 1,
             ],
             [
                 'name' => 'modernist Shirt',
@@ -241,6 +265,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's11.png',
                 'stock' => 20,
+                'is_active' => 1,
             ],
             [
                 'name' => 'casual vibe Shirt',
@@ -250,6 +275,7 @@ class ProductSeeder extends Seeder
                 'category' => 'shirt',
                 'image' => 's12.png',
                 'stock' => 29,
+                'is_active' => 1,
             ],
             
             // T-Shirt Products =========================================================================
@@ -261,6 +287,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts1.png',
                 'stock' => 20,
+                'is_active' => 1,
             ],
             [
                 'name' => 'blue sky T-Shirt',
@@ -270,6 +297,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts2.png',
                 'stock' => 30,
+                'is_active' => 1,
             ],
             [
                 'name' => 'orange T-Shirt',
@@ -279,6 +307,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts3.png',
                 'stock' => 25,
+                'is_active' => 1,
             ],
             [
                 'name' => 'square design T-Shirt',
@@ -288,6 +317,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts4.png',
                 'stock' => 22,
+                'is_active' => 1,
             ],
             [
                 'name' => 'bone splash T-Shirt',
@@ -297,6 +327,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts5.png',
                 'stock' => 18,
+                'is_active' => 1,
             ],
             [
                 'name' => 'perfect color T-Shirt',
@@ -306,6 +337,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts6.png',
                 'stock' => 28,
+                'is_active' => 1,
             ],
             [
                 'name' => 'clay modern art T-Shirt',
@@ -315,6 +347,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts7.png',
                 'stock' => 24,
+                'is_active' => 1,
             ],
             [
                 'name' => 'block color splash T-Shirt',
@@ -324,6 +357,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts8.png',
                 'stock' => 26,
+                'is_active' => 1,
             ],
             [
                 'name' => 'tracked modern art T-Shirt',
@@ -333,6 +367,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts9.png',
                 'stock' => 20,
+                'is_active' => 1,
             ],
             [
                 'name' => 'traditional color splash T-Shirt',
@@ -342,6 +377,7 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts10.png',
                 'stock' => 30,
+                'is_active' => 1,
             ],
             [
                 'name' => 'adat jawa modern art T-Shirt',
@@ -351,13 +387,20 @@ class ProductSeeder extends Seeder
                 'category' => 't-shirt',
                 'image' => 'ts11.png',
                 'stock' => 22,
+                'is_active' => 1,
             ],
 
 
         ];
 
-        foreach ($products as $product) {
+    foreach ($products as $product) {
+        // Cek dulu apakah slug sudah ada (double safety)
+        if (!Product::where('slug', $product['slug'])->exists()) {
             Product::create($product);
         }
+    }
+    
+    $this->command->info('✅ Product seeder completed: ' . count($products) . ' products added.');
+
     }
 }

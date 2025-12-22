@@ -7,6 +7,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
+
 
 // ===========================================
 // 1. PUBLIC PAGES
@@ -92,6 +94,14 @@ Route::prefix('admin')->middleware(['auth.session', 'admin'])->group(function() 
     Route::get('/products/{id}/edit', [AdminController::class, 'editProduct'])->name('admin.products.edit');
     Route::put('/products/{id}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
     Route::delete('/products/{id}', [AdminController::class, 'deleteProduct'])->name('admin.products.delete');
+    
+    // Orders Management (TAMBAHKAN INI)
+    Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/orders/{id}', [AdminController::class, 'showOrder'])->name('admin.orders.show');
+    Route::put('/orders/{id}', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.update');
+    
+    // Customers Management (TAMBAHKAN INI)
+    Route::get('/customers', [AdminController::class, 'customers'])->name('admin.customers');
 });
 
 // ===========================================
@@ -158,4 +168,52 @@ Route::middleware('auth.session')->group(function() {
         $orders = \App\Models\Order::where('user_id', session('user_id'))->latest()->get();
         return view('pages.my-orders', compact('orders'));
     })->name('my.orders');
+});
+
+Route::get('/test-upload', function() {
+    return view('test-upload');
+});
+
+Route::post('/test-upload', function(Request $request) {
+    dd($request->file('test_image'));
+});
+
+
+
+// ===========================================
+// DEBUG ROUTE
+Route::get('/test-update-form', function() {
+    $product = \App\Models\Product::find(7);
+    return view('test-update-form', compact('product'));
+});
+
+Route::post('/test-update-handler/{id}', function(Request $request, $id) {
+    echo "<pre>";
+    echo "=== TEST UPDATE HANDLER ===\n";
+    echo "Product ID: $id\n";
+    echo "Method: " . $request->method() . "\n";
+    echo "Has File: " . ($request->hasFile('image') ? 'YES' : 'NO') . "\n";
+    echo "Request Data:\n";
+    print_r($request->all());
+    
+    // Coba update
+    $product = \App\Models\Product::find($id);
+    if ($product) {
+        $product->update([
+            'name' => $request->name . ' [TESTED]',
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'category' => $request->category,
+            'is_active' => $request->has('is_active') ? 1 : 0
+        ]);
+        
+        echo "\nUpdate SUCCESS!\n";
+        echo "New Name: {$product->name}\n";
+        echo "Updated At: {$product->updated_at}\n";
+    }
+    
+    echo "</pre>";
+    echo "<br><a href='/test-update-form'>Kembali</a>";
+    exit;
 });

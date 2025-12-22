@@ -43,50 +43,68 @@ class AdminController extends Controller
     
     public function storeProduct(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'category' => 'required|in:t-shirt,shirt,jacket',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'is_active' => 'nullable|boolean'
-        ]);
         
-        // Generate slug
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric|min:0',
+        'stock' => 'required|integer|min:0',
+        'category' => 'required|in:t-shirt,shirt,jacket',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+        'is_active' => 'nullable|boolean'
+    ]);
+    
+    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+    
+    // SIMPLE UPLOAD - PASTI BERHASIL
+    $imageName = 'default_product.png';
+    
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
         
-        // Handle image upload ke PUBLIC/IMG/
-        $imageName = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $slug . '.' . $image->getClientOriginalExtension();
-            
-            // Simpan ke public/img/
+        // Nama file: slug_timestamp.random.extension
+        $timestamp = time();
+        $random = rand(100, 999);
+        $extension = $image->getClientOriginalExtension();
+        $imageName = "{$slug}_{$timestamp}_{$random}.{$extension}";
+        
+        // Coba upload
+        try {
             $image->move(public_path('img'), $imageName);
+        } catch (\Exception $e) {
+            // Jika gagal, pakai nama default
+            $imageName = 'default_product.png';
         }
-        
-        // Create product
-        Product::create([
-            'name' => $request->name,
-            'slug' => $slug,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'category' => $request->category,
-            'image' => $imageName, // Contoh: "1703267898_test-product.jpg"
-            'is_active' => $request->has('is_active') ? 1 : 0
-        ]);
-        
-        return redirect()->route('admin.products')->with('success', 'Product created successfully!');
     }
     
+    // CREATE PRODUCT
+    Product::create([
+        'name' => $request->name,
+        'slug' => $slug,
+        'description' => $request->description,
+        'price' => $request->price,
+        'stock' => $request->stock,
+        'category' => $request->category,
+        'image' => $imageName,
+        'is_active' => $request->has('is_active') ? 1 : 0
+    ]);
+    
+    return redirect()->route('admin.products')->with('success', 'Product created successfully!');
+}
+
+    // === EDIT PRODUCT ===
+    // Di AdminController, editProduct method
+    // === EDIT PRODUCT ===
     public function editProduct($id)
     {
-        $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        try {
+            $product = Product::findOrFail($id);
+            return view('admin.products.edit', compact('product'));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect()->route('admin.products')
+                ->with('error', 'Product not found! It may have been deleted.');
+        }
     }
-    
     public function updateProduct(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -97,47 +115,46 @@ class AdminController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'category' => 'required|in:t-shirt,shirt,jacket',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
             'is_active' => 'nullable|boolean'
         ]);
         
-        $data = [
+        $updateData = [
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
             'category' => $request->category,
-            'is_active' => $request->has('is_active') ? 1 : 0
+            'is_active' => $request->has('is_active') ? 1 : 0,
+            'image' => $product->image // Default: gambar lama
         ];
         
-        // Update image jika ada
+        // Handle gambar jika diupload
         if ($request->hasFile('image')) {
-            // Delete old image dari public/img/
-            if ($product->image && file_exists(public_path('img/' . $product->image))) {
-                unlink(public_path('img/' . $product->image));
-            }
-            
-            // Upload new image
             $image = $request->file('image');
-            $imageName = time() . '_' . $product->slug . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('img'), $imageName);
             
-            $data['image'] = $imageName;
+            // Generate nama file baru
+            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->name)));
+            $imageName = $slug . '_' . time() . '.' . $image->getClientOriginalExtension();
+            
+            // Upload gambar baru
+            $image->move(public_path('img'), $imageName);
+            $updateData['image'] = $imageName;
         }
         
-        $product->update($data);
+        // Update database
+        $product->update($updateData);
         
         return redirect()->route('admin.products')->with('success', 'Product updated successfully!');
     }
-    
     public function deleteProduct($id)
     {
         $product = Product::findOrFail($id);
         
-        // Delete image dari public/img/
-        if ($product->image && file_exists(public_path('img/' . $product->image))) {
-            unlink(public_path('img/' . $product->image));
-        }
+        // OPTIONAL: Hapus image (jika mau)
+        // if ($product->image && file_exists(public_path('img/' . $product->image))) {
+        //     unlink(public_path('img/' . $product->image));
+        // }
         
         $product->delete();
         

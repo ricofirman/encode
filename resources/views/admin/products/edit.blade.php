@@ -14,6 +14,7 @@
 <!-- Edit Form -->
 <div class="card">
     <div class="card-body">
+        <!-- HANYA SATU FORM! -->
         <form id="editProductForm" action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -108,13 +109,15 @@
             
             <!-- Action Buttons -->
             <div class="d-flex justify-content-between mt-4">
-                <form action="{{ route('admin.products.delete', $product->id) }}" method="POST" class="d-inline">
+                <!-- Delete Form TERPISAH -->
+                {{-- <form action="{{ route('admin.products.delete', $product->id) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Delete this product?')">
                         <i class="bi bi-trash me-2"></i>Delete
                     </button>
-                </form>
+                </form> --}}
+                
                 <div>
                     <a href="{{ route('admin.products') }}" class="btn btn-outline-secondary me-2">Cancel</a>
                     <button type="submit" class="btn btn-primary">
@@ -123,6 +126,7 @@
                 </div>
             </div>
         </form>
+        <!-- AKHIR FORM -->
     </div>
 </div>
 @endsection
