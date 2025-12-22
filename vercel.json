@@ -17,7 +17,7 @@
         "APP_ENV": "production",
         "APP_DEBUG": "true",
         "APP_URL": "https://your.url.from.vercel.app",
-        "APP_KEY": "add API key here from your .env file",
+        "APP_KEY": "base64:iEqsAK2AIj8E6+xqJT5jKQLL1PmS31iBLC3z5Ja0NxY=",
 
         "buildCommand": "mkdir -p api && cp public/index.php api/ && composer install --no-dev",
         "installCommand": "composer install --no-dev --optimize-autoloader",
