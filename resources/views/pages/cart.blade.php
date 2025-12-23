@@ -200,8 +200,9 @@ function removeItem(itemId) {
 }
 
 function checkout() {
-    alert('Checkout feature coming soon!');
-    // window.location.href = "/checkout";
+  window.location.href = "/checkout";
 }
+
+
 </script>
 @endsection

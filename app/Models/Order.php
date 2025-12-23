@@ -5,9 +5,18 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'order_number', 'user_id', 'customer_name', 'customer_email',
-        'shipping_address', 'total', 'status', 'payment_method', 
-        'payment_status', 'notes'
+        'order_number','user_id',
+
+        'customer_name','customer_email','customer_phone',
+
+        'shipping_name','shipping_address','shipping_city','shipping_province','shipping_postal_code','shipping_phone',
+
+        'subtotal','tax','shipping_cost','total',
+
+        'payment_method','payment_status','status','notes',
+
+        // midtrans fields (kalau kamu pakai)
+        'snap_token','midtrans_order_id','transaction_id','payment_type','paid_at',
     ];
 
     public function user()

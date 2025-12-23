@@ -5,14 +5,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="d-flex gap-4">
-                    <a href="#">Contact Online Shop</a>
-                    <a href="#">FAQ</a>
+            
                 </div>
             </div>
             <div class="col-md-6 text-md-end">
                 <div class="d-flex gap-4 justify-content-md-end">
-                    <a href="#">Delivery</a>
-                    <a href="#">Order Status</a>
+                    
+                    <a href="{{ route('my.orders') }}" class="btn btn-dark mt-3">Order Status</a>
                 </div>
             </div>
         </div>
